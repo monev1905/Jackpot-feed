@@ -1,28 +1,35 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <PotFeed></PotFeed>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import PotFeed from "./components/PotFeed";
 
 export default {
   name: "App",
   components: {
-    HelloWorld
+    PotFeed
   }
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body {
+  font-size: 18px;
+}
+
+*,
+:after,
+:before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-size: inherit;
+}
+
+.goldText {
+  background: -webkit-linear-gradient(#fef785, #ccaa35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 </style>
