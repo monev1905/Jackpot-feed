@@ -1,34 +1,26 @@
 <template>
-  <div class="potWrapper">
-    <div class="dailyDrop">
-      <img src="@/assets/1.png" alt="" class="dailyDropImg" />
-      <DailyDropBox></DailyDropBox>
-      <PrizeDrop></PrizeDrop>
-      <PrizeDrop
-        v-for="(img, index) in images.dropsImgSrc"
-        :key="index"
-        :currentSrc="img"
-      ></PrizeDrop>
-    </div>
+  <div class="potWrapper"> 
+    <PotBox
+      v-for="(el, index) in data.pots"
+      :key="index"
+      :elDataObj="el"
+    ></PotBox>
   </div>
 </template>
 
 <script>
-import DailyDropBox from "./DailyDrop";
-import PrizeDrop from "./PrizeDrop";
+import PotBox from "./PotBox";
+import { mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      images: {
-        dropsImgSrc: [require("@/assets/2.png"), require("@/assets/3.png")]
-      }
-    };
-  },
   name: "Jackpot",
   components: {
-    DailyDropBox,
-    PrizeDrop
+    PotBox
+  },
+  computed: {
+    ...mapState({
+      data: "potsData"
+    })
   }
 };
 </script>
@@ -43,10 +35,6 @@ export default {
   background: url("../assets/bg.png");
   background-repeat: no-repeat;
   background-size: 100% 100%;
-}
-.dailyDropImg {
-  width: 120%;
-  height: auto;
-  margin-left: -10%;
+  padding: 0.2em;
 }
 </style>
