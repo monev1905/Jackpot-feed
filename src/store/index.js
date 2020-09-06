@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import fakeData from "../../fakeData/data.json";
-
 Vue.use(Vuex);
 
 export default new Vuex.Store({
