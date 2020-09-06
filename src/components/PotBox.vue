@@ -25,9 +25,6 @@ export default {
   props: {
     elDataObj: Object
   },
-  data() {
-    return {};
-  },
   name: "PotBox",
   components: {
     BigTypeBox,
@@ -76,7 +73,7 @@ export default {
   left: 0;
   width: 100%;
   height: 120%;
-  background: url(/img/stars.2f1e4102.png);
+  background-image: url("../assets/stars.png");
   background-size: 120% 100%;
   background-repeat: no-repeat;
   z-index: 1;
@@ -103,7 +100,7 @@ export default {
 
 .jackpotTimerWrap {
   flex: 0 0 65%;
-  padding-left: 1em;
+  padding-left: 0.5em;
   z-index: 2;
 }
 

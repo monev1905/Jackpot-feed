@@ -14,7 +14,7 @@ export default {
   created() {
     window.setInterval(() => {
       this.callRefreshData();
-    }, 5000);
+    }, 30000);
     //this.callRefreshData();
   },
   methods: {
