@@ -4,7 +4,6 @@
 
 <script>
 import PotFeed from "./components/PotFeed";
-// import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -14,14 +13,14 @@ export default {
   created() {
     window.setInterval(() => {
       this.callRefreshData();
+      //console.log(this.$store.state.potsData.pots[0].amount);
     }, 30000);
-    //this.callRefreshData();
   },
   methods: {
     // ...mapActions([refreshData]),
     // var amount = this.$store.state.potsData.pots[0].amount * 2;
     callRefreshData() {
-      return this.$store.dispatch("refreshData", "test");
+      return this.$store.dispatch("refreshData");
     }
   }
 };

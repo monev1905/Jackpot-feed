@@ -17,6 +17,7 @@
 
 <script>
 import TimerCountdown from "./TimerCountdown";
+import { TweenMax } from "gsap";
 
 export default {
   props: {
@@ -35,6 +36,36 @@ export default {
     },
     getPotAmount() {
       return this.$store.getters.potAmount(this.elDataObj);
+    },
+    triggerAnimation() {
+      return this.$store.state.potsData.pots[0].amount;
+    }
+  },
+  watch: {
+    triggerAnimation(newAmount, oldAmount) {
+      var el = document.getElementsByClassName("goldText")[0];
+      var obj = { value: oldAmount, propsData: this.elDataObj };
+      TweenMax.to(obj, 2, {
+        value: newAmount,
+        onUpdate: function() {
+          var unvalidateAmount = obj.value.toFixed(2);
+
+          var amount = "";
+          if (unvalidateAmount.length > 3) {
+            var amountArr = unvalidateAmount.split(".");
+            var dollars = amountArr[0].replace(
+              /(\d)(?=(\d\d\d)+(?!\d))/g,
+              "$1,"
+            );
+            amountArr[0] = dollars;
+            var validatedAmount = amountArr.join(".");
+            amount = obj.propsData.currency + validatedAmount;
+          } else {
+            amount = obj.propsData.currency + obj.propsData.amount;
+          }
+          el.innerHTML = amount;
+        }
+      });
     }
   }
 };
@@ -55,10 +86,15 @@ export default {
   margin-top: -1em;
 }
 
+.boxMoney {
+  overflow: hidden;
+}
+
 .boxMoney img {
   position: absolute;
   background-size: 100% 100%;
   width: 100%;
+  height: 42%;
   z-index: 1;
   top: 0;
   left: 0;
