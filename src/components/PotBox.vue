@@ -9,7 +9,7 @@
     </div>
     <div class="jackpotTimerWrap">
       <div class="dropJackpot goldText">
-        <p>{{ potAmount }}</p>
+        <p>{{ getPotAmount }}</p>
       </div>
       <div v-if="hasTimer" class="timerWrapper">
         <TimerCountdown :countdown="elDataObj.must_drop_in"></TimerCountdown>
@@ -47,17 +47,8 @@ export default {
     getSrcImg() {
       return require(`@/assets/${this.elDataObj.imageType}.png`);
     },
-    potAmount() {
-      var amount = this.elDataObj.amount;
-      if (amount.length > 3) {
-        amount = this.elDataObj.amount.split(".");
-        var dollars = amount[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-        amount[0] = dollars;
-        var newAmount = amount.join(".");
-        return this.elDataObj.currency + newAmount;
-      } else {
-        return this.elDataObj.currency + this.elDataObj.amount;
-      }
+    getPotAmount() {
+      return this.$store.getters.potAmount(this.elDataObj);
     }
   }
 };

@@ -5,7 +5,7 @@
     </div>
     <div class="boxWrapper">
       <div class="boxMoney">
-        <p class="goldText">{{potAmount}}</p>
+        <p class="goldText">{{ getPotAmount }}</p>
         <img src="@/assets/box.png" alt="" />
       </div>
       <div class="timerBox">
@@ -33,17 +33,8 @@ export default {
     getSrcImg() {
       return require(`@/assets/${this.elDataObj.imageType}.png`);
     },
-    potAmount() {
-      var amount = this.elDataObj.amount;
-      if (amount.length > 3) {
-        amount = this.elDataObj.amount.split(".");
-        var dollars = amount[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-        amount[0] = dollars;
-        var newAmount = amount.join(".");
-        return this.elDataObj.currency + newAmount;
-      } else {
-        return this.elDataObj.currency + this.elDataObj.amount;
-      }
+    getPotAmount() {
+      return this.$store.getters.potAmount(this.elDataObj);
     }
   }
 };
@@ -55,9 +46,8 @@ export default {
 }
 
 .dailyDropImg {
-  width: 120%;
-  height: auto;
-  margin-left: -10%;
+  width: 100%;
+  height: 100%;
 }
 
 .boxWrapper {

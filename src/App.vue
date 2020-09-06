@@ -7,27 +7,21 @@ import PotFeed from "./components/PotFeed";
 // import { mapActions } from "vuex";
 
 export default {
-  updated() {
-    this.refreshData();
-  },
   name: "App",
   components: {
     PotFeed
   },
-  mounted() {
-    this.refreshData();
+  created() {
+    window.setInterval(() => {
+      this.callRefreshData();
+    }, 5000);
+    //this.callRefreshData();
   },
   methods: {
     // ...mapActions([refreshData]),
-    refreshData() {
-      var newAmount =
-        this.$store.state.potsData.pots[0].amount +
-        this.$store.state.potsData.pots[0].amount * 0.1;
-      this.$store.commit("updateData", {
-        amount: newAmount
-      });
-      // var amount = this.$store.state.potsData.pots[0].amount * 2;
-      // this.$store.dispatch("refreshData");
+    // var amount = this.$store.state.potsData.pots[0].amount * 2;
+    callRefreshData() {
+      return this.$store.dispatch("refreshData", "test");
     }
   }
 };
