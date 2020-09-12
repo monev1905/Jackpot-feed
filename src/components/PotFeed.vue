@@ -1,5 +1,5 @@
 <template>
-  <div class="potWrapper"> 
+  <div class="potWrapper">
     <PotBox
       v-for="(el, index) in data.pots"
       :key="index"

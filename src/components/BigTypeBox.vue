@@ -1,15 +1,15 @@
 <template>
   <div>
     <div class="dailyDrop">
-      <img :src="getSrcImg" alt="" class="dailyDropImg" />
+      <img :src="imgSrc" alt="" class="dailyDropImg" />
     </div>
     <div class="boxWrapper">
       <div class="boxMoney">
-        <p class="goldText">{{ getPotAmount }}</p>
-        <img src="@/assets/box.png" alt="" />
+        <p class="goldText">{{ potAmount }}</p>
+        <img src="@/assets/box.png" />
       </div>
-      <div class="timerBox">
-        <TimerCountdown :countdown="elDataObj.must_drop_in"></TimerCountdown>
+      <div class="timerBox" v-if="hasTimer">
+        <TimerCountdown :countdown="dropInCountdown"></TimerCountdown>
       </div>
     </div>
   </div>
@@ -17,57 +17,51 @@
 
 <script>
 import TimerCountdown from "./TimerCountdown";
-import { TweenMax } from "gsap";
+//import { TweenMax } from "gsap";
 
 export default {
   props: {
-    elDataObj: Object
-  },
-  data() {
-    return {};
+    imgSrc: String,
+    potAmount: String,
+    hasTimer: Boolean,
+    dropInCountdown: String
   },
   name: "BigTypeBox",
   components: {
     TimerCountdown
   },
   computed: {
-    getSrcImg() {
-      return require(`@/assets/${this.elDataObj.imageType}.png`);
-    },
-    getPotAmount() {
-      return this.$store.getters.potAmount(this.elDataObj);
-    },
-    triggerAnimation() {
-      return this.$store.state.potsData.pots[0].amount;
-    }
-  },
-  watch: {
-    triggerAnimation(newAmount, oldAmount) {
-      var el = document.getElementsByClassName("goldText")[0];
-      var obj = { value: oldAmount, propsData: this.elDataObj };
-      TweenMax.to(obj, 2, {
-        value: newAmount,
-        onUpdate: function() {
-          var unvalidateAmount = obj.value.toFixed(2);
-
-          var amount = "";
-          if (unvalidateAmount.length > 3) {
-            var amountArr = unvalidateAmount.split(".");
-            var dollars = amountArr[0].replace(
-              /(\d)(?=(\d\d\d)+(?!\d))/g,
-              "$1,"
-            );
-            amountArr[0] = dollars;
-            var validatedAmount = amountArr.join(".");
-            amount = obj.propsData.currency + validatedAmount;
-          } else {
-            amount = obj.propsData.currency + obj.propsData.amount;
-          }
-          el.innerHTML = amount;
-        }
-      });
-    }
+    // triggerAnimation() {
+    //   return this.$store.state.potsData.pots[0].amount;
+    // }
   }
+  // watch: {
+  //   triggerAnimation(newAmount, oldAmount) {
+  //     var el = document.getElementsByClassName("goldText")[0];
+  //     var obj = { value: oldAmount, propsData: this.elDataObj };
+  //     TweenMax.to(obj, 2, {
+  //       value: newAmount,
+  //       onUpdate: function() {
+  //         var unvalidateAmount = obj.value.toFixed(2);
+
+  //         var amount = "";
+  //         if (unvalidateAmount.length > 3) {
+  //           var amountArr = unvalidateAmount.split(".");
+  //           var dollars = amountArr[0].replace(
+  //             /(\d)(?=(\d\d\d)+(?!\d))/g,
+  //             "$1,"
+  //           );
+  //           amountArr[0] = dollars;
+  //           var validatedAmount = amountArr.join(".");
+  //           amount = obj.propsData.currency + validatedAmount;
+  //         } else {
+  //           amount = obj.propsData.currency + obj.propsData.amount;
+  //         }
+  //         el.innerHTML = amount;
+  //       }
+  //     });
+  //   }
+  //}
 };
 </script>
 
@@ -94,7 +88,6 @@ export default {
   position: absolute;
   background-size: 100% 100%;
   width: 100%;
-  height: 42%;
   z-index: 1;
   top: 0;
   left: 0;

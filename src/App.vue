@@ -14,7 +14,7 @@ export default {
     window.setInterval(() => {
       this.callRefreshData();
       //console.log(this.$store.state.potsData.pots[0].amount);
-    }, 30000);
+    }, 4000);
   },
   methods: {
     // ...mapActions([refreshData]),

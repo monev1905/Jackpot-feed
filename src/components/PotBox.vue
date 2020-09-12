@@ -1,112 +1,96 @@
 <template>
-  <div v-if="isBigType">
-    <BigTypeBox :elDataObj="elDataObj"></BigTypeBox>
-  </div>
-  <div v-else class="dropWrapper">
-    <div class="starsContainer"></div>
-    <div class="imgWrapper">
-      <img :src="getSrcImg" alt="" />
-    </div>
-    <div class="jackpotTimerWrap">
-      <div class="dropJackpot goldText">
-        <p>{{ getPotAmount }}</p>
-      </div>
-      <div v-if="hasTimer" class="timerWrapper">
-        <TimerCountdown :countdown="elDataObj.must_drop_in"></TimerCountdown>
-      </div>
-    </div>
+  <div
+    class="potBox"
+    :class="[
+      isBigType ? 'bigTypeBox' : 'mediumTypeBox',
+      !ifTimerExist ? 'timerOff' : ''
+    ]"
+  >
+    <BigTypeBox
+      v-if="isBigType"
+      :imgSrc="getSrcImg"
+      :potAmount="getPotAmount"
+      :hasTimer="ifTimerExist"
+      :dropInCountdown="elDataObj.must_drop_in"
+    ></BigTypeBox>
+    <MediumTypeBox
+      v-else
+      :imgSrc="getSrcImg"
+      :potAmount="getPotAmount"
+      :hasTimer="ifTimerExist"
+      :dropInCountdown="elDataObj.must_drop_in"
+    ></MediumTypeBox>
   </div>
 </template>
 
 <script>
 import BigTypeBox from "./BigTypeBox";
-import TimerCountdown from "./TimerCountdown";
+import MediumTypeBox from "./MediumTypeBox";
 export default {
   props: {
     elDataObj: Object
   },
+  data() {
+    return {};
+  },
   name: "PotBox",
   components: {
     BigTypeBox,
-    TimerCountdown
+    MediumTypeBox
   },
   computed: {
-    isBigType() {
-      var typeIsBig = false;
-      this.elDataObj.type == "big" ? (typeIsBig = true) : (typeIsBig = false);
-      return typeIsBig;
+    typeOfBox() {
+      return this.isBigType ? "BigTypeBox" : "MediumTypeBox";
     },
-    hasTimer() {
-      var timerExist = false;
-      this.elDataObj.must_drop_in ? (timerExist = true) : (timerExist = false);
-      return timerExist;
+    isBigType() {
+      if (this.elDataObj.type == "big") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    getPotAmount() {
+      var amount = this.elDataObj.amount;
+
+      if (amount !== Number) {
+        amount = Number(amount);
+        amount = amount.toFixed(2);
+      }
+
+      if (amount !== String) {
+        amount = String(amount);
+      }
+
+      if (amount.length > 3) {
+        var amountArr = amount.split(".");
+        var dollars = amountArr[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+        amountArr[0] = dollars;
+        var newAmount = amountArr.join(".");
+        return this.elDataObj.currency + newAmount;
+      } else {
+        return this.elDataObj.currency + this.elDataObj.amount;
+      }
     },
     getSrcImg() {
       return require(`@/assets/${this.elDataObj.imageType}.png`);
     },
-    getPotAmount() {
-      return this.$store.getters.potAmount(this.elDataObj);
+    ifTimerExist() {
+      if (this.elDataObj.must_drop_in) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-.dropWrapper {
-  position: relative;
-  width: 100%;
+.potBox {
   margin: -0.5em 0 1em 0;
-  height: 4em;
-  background-color: #0e0c22;
-  border-radius: 3%;
-  box-shadow: inset 0px 0px 20px -3px rgb(43, 49, 101),
-    0 20px 5px rgb(43, 49, 101, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0.3em;
 }
 
-.starsContainer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 120%;
-  background-image: url("../assets/stars.png");
-  background-size: 120% 100%;
-  background-repeat: no-repeat;
-  z-index: 1;
-  margin-top: -1em;
-}
-
-.timerWrapper {
-  background-image: none;
-  margin-left: -0.4em;
-}
-
-.imgWrapper {
-  height: inherit;
-  display: flex;
-  align-items: center;
-  flex: 1 1 auto;
-  flex: 0 0 35%;
-  z-index: 2;
-}
-
-.imgWrapper img {
-  width: 3.5em;
-}
-
-.jackpotTimerWrap {
-  flex: 0 0 65%;
-  padding-left: 0.5em;
-  z-index: 2;
-}
-
-.dropJackpot {
-  font-size: 1em;
-  display: flex;
-  flex-direction: column;
+.potBox.bigTypeBox.timerOff:not(:last-child) {
+  margin-bottom: 2.5em;
 }
 </style>
