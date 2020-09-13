@@ -13,12 +13,9 @@ export default {
   created() {
     window.setInterval(() => {
       this.callRefreshData();
-      //console.log(this.$store.state.potsData.pots[0].amount);
-    }, 4000);
+    }, 30000);
   },
   methods: {
-    // ...mapActions([refreshData]),
-    // var amount = this.$store.state.potsData.pots[0].amount * 2;
     callRefreshData() {
       return this.$store.dispatch("refreshData");
     }
@@ -38,13 +35,6 @@ body {
   padding: 0;
   margin: 0;
   font-size: inherit;
-}
-
-.goldText {
-  background: -webkit-linear-gradient(#fef785, #ccaa35);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
 }
 
 @media (max-height: 900px) {

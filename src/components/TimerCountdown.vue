@@ -113,7 +113,6 @@ export default {
   background: #000000;
   border-radius: 25%;
   height: 1em;
-  width: fit-content;
 }
 
 .countdownWrapper {
@@ -124,16 +123,16 @@ export default {
 .countdownWrapper p,
 .countdownWrapper .icon,
 .countdownWrapper .timer {
-  font-size: 0.42em;
+  font-size: 0.4em;
+  font-weight: 500;
 }
 
 .icon {
-  padding: 0 0.3em;
+  padding: 0 0.4em;
 }
 
 .icon svg {
-  width: 1.5em;
-  height: 1.5em;
-  margin-top: -0.3em;
+  width: 1.1em;
+  height: 1.1em;
 }
 </style>
